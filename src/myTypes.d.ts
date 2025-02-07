@@ -1,4 +1,4 @@
-import {Friend, Colleague, ColleagueHistory } from './myTypes'
+
 
 export interface Friend {
     name: string;
@@ -19,3 +19,9 @@ export interface ColleagueHistory {
   current: Colleague[],
   former: Colleague[]
 }
+
+export interface EmailContact {
+    name: string;
+    email: string
+}
+

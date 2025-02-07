@@ -1,4 +1,4 @@
-import { Friend, Colleague,ColleagueHistory } from './myTypes';  // 导入Friend和Colleague接口
+import { Friend, Colleague, ColleagueHistory, EmailContact } from './myTypes';  // 导入Friend和Colleague接口
 
 // 定义 Friend 数组
 const friend1: Friend = {
@@ -94,3 +94,14 @@ addColleague(colleagues.current, "Sheild O Connell", "HR", "soc@here.com");
 
 // 输出添加的同事
 console.log(colleagues.current.filter((c) => c.name === "Sheild O Connell"));
+
+// ------------- 新函数：findFriends -------------------
+
+// findFriends 函数：接受一个朋友数组和回调函数，返回符合条件的朋友名字
+function findFriends(friends: Friend[], callback: (friend: Friend) => boolean): string[] {
+  return friends.filter(callback).map(friend => friend.name);  // 过滤出符合条件的朋友并返回名字数组
+}
+
+// 测试 findFriends 函数
+console.log(findFriends(friends, (friend) => friend.name.startsWith('Pa')));  // [ 'Paul Fleming' ]
+console.log(findFriends(friends, (friend) => friend.age < 35));  // [ 'Paul Fleming', 'Jane Costello' ]
