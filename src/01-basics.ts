@@ -1,9 +1,4 @@
-// 定义 Friend 接口
-interface Friend {
-    name: string;
-    phone: string;
-    age: number;
-  }
+
   
   // 使用 Friend 类型
   const friend1: Friend = {
@@ -30,6 +25,19 @@ interface Friend {
     email: string;
     extension: number;
   }
+  // 定义 Friend 接口
+  interface Friend {
+    name: string;
+    phone: string;
+    age: number;
+  }
+  
+
+  interface ColleagueHistory {
+    current: Colleague[],
+    former: Colleague[]
+  }
+  
   
   // 定义 Colleague 接口
   interface Colleague {
@@ -73,10 +81,11 @@ interface Friend {
   }
   
   // 使用 Colleagues 类型
-  const colleagues: Colleagues = {
+  export const colleagues : ColleagueHistory = {
     current: [colleague1, colleague2, colleague3],
     former: [],
   };
+  
   
   console.log(colleagues.current[0]);
   
