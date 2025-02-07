@@ -1,16 +1,18 @@
-import { Friend, Colleague, ColleagueHistory, EmailContact } from './myTypes';  // 导入接口
+import { Friend, Colleague, ColleagueHistory, EmailContact } from './myTypes';  // 导入 Friend 和 Colleague 接口
 
 // 定义 Friend 数组
 const friend1: Friend = {
   name: "Paul Fleming",
   phone: "087-12345",
   age: 25,
+  interests: ["Music", "Sport"], // 初始兴趣
 };
 
 const friend2: Friend = {
   name: "Jane Costello",
   phone: "086--12345",
   age: 31,
+  interests: [], // 初始兴趣为空
 };
 
 // friends 数组
@@ -28,6 +30,15 @@ function allOlder(friends: Friend[]): string[] {
     friend.age += 1;
     return `${friend.name} is now ${friend.age}`;
   });
+}
+
+// addInterest 函数：将兴趣添加到朋友的兴趣数组中
+function addInterest(f: Friend, interest: string): string[] {
+  if (!f.interests) {
+    f.interests = [];
+  }
+  f.interests.push(interest);
+  return f.interests;
 }
 
 // ------------- 同事数据结构 -------------------
@@ -97,28 +108,29 @@ console.log(colleagues.current.filter((c) => c.name === "Sheild O Connell"));
 
 // ------------- 新函数：sortColleagues -------------------
 
-// sortColleagues 函数：根据排序条件和最大条目数返回同事
+// sortColleagues 函数：根据提供的排序器对同事进行排序，并返回 EmailContact 数组
 function sortColleagues(
   colleagues: Colleague[],
   sorter: (c1: Colleague, c2: Colleague) => number,
   max: number
 ): EmailContact[] {
-  const end = max < 2 ? 1 : max;  // 确保最少返回一条记录
-  const sorted = colleagues.sort(sorter);  // 排序同事数组
-  const fullResult = sorted.map((ce) => ({ name: ce.name, email: ce.contact.email }));  // 映射为 EmailContact 数组
-  return fullResult.slice(0, end);  // 返回最多max 条记录
+  const end = max < 2 ? 1 : max;
+  const sorted = colleagues.sort(sorter);
+  const fullResult = sorted.map((ce) => ({ name: ce.name, email: ce.contact.email }));
+  return fullResult.slice(0, end);
 }
 
-// 测试调用
+// Test invocations
 console.log(sortColleagues(colleagues.current, (a, b) => a.contact.extension - b.contact.extension, 3));
 console.log(sortColleagues(colleagues.current, (a, b) => a.name.length - b.name.length, 1));
 
-
 // ------------- 新函数：findFriends -------------------
-function findFriends(friends: Friend[], callback: (friend: Friend) => boolean): string[] {
-  return friends.filter(callback).map(friend => friend.name);
+
+// findFriends 函数：根据回调函数条件筛选朋友
+function findFriends(friends: Friend[], condition: (friend: Friend) => boolean): string[] {
+  return friends.filter(condition).map((friend) => friend.name);
 }
 
-// 测试调用
-console.log(findFriends(friends, (friend) => friend.name.startsWith('Pa')));
-console.log(findFriends(friends, (friend) => friend.age < 35));
+// 测试调用 findFriends
+console.log(findFriends(friends, (friend) => friend.name.startsWith('Pa')));  // 输出: [ 'Paul Fleming' ]
+console.log(findFriends(friends, (friend) => friend.age < 35));  // 输出: [ 'Paul Fleming', 'Jane Costello' ]
